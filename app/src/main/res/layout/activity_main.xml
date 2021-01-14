@@ -6,6 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/wlc"
+        android:text="@string/note"
+        android:textSize="23sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="180dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:id="@+id/btn_find_cars"
+        android:text="@string/owners"
+        android:textAllCaps="false"
+        android:textSize="23sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="140dp"
+        app:cornerRadius="35dp"
+        app:layout_constraintTop_toBottomOf="@id/wlc"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:id="@+id/btn_find_users"
+        android:text="@string/people"
+        android:textAllCaps="false"
+        android:textSize="23sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="20dp"
+        app:cornerRadius="35dp"
+        app:strokeWidth="1.8dp"
+        app:strokeColor="@color/design_default_color_primary"
+        app:layout_constraintTop_toBottomOf="@id/btn_find_cars"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
