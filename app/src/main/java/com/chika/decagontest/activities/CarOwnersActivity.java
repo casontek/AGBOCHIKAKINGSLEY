@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.chika.decagontest.R;
 
-public class Cars extends AppCompatActivity {
+public class CarOwnersActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

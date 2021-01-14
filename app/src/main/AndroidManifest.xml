@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DecagonTest">
-        <activity android:name=".activities.User"></activity>
+        <activity android:name=".activities.UserActivity"></activity>
         <activity android:name=".activities.Users" />
-        <activity android:name=".activities.Cars" />
+        <activity android:name=".activities.CarOwnersActivity" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
