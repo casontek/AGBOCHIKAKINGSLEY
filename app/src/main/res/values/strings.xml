@@ -3,4 +3,9 @@
     <string name="note">Welcome to APPFIND</string>
     <string name="owners">Car Owners</string>
     <string name="people">Find People</string>
+    <string name="user_chika">Chika King</string>
+    <string name="user_date">Monday, April 24 2021</string>
+    <string name="user_email">chikakingsley@mail.com</string>
+    <string name="user_country">Nigeria</string>
+    <string name="user_car">Car: Rolls-Royce, 2007</string>
 </resources>

@@ -106,7 +106,7 @@ public class CarOwner {
 
     @Override
     public String toString() {
-        return "CarOwner{" +
+        return "CarOwnerAdapter{" +
                 "id=" + id +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +

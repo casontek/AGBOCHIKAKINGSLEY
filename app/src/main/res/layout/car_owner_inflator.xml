@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/owner_names"
+                android:text="@string/user_chika"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/owner_email"
+                android:text="@string/user_email"
+                android:textColor="@color/txt_light"
+                app:layout_constraintTop_toBottomOf="@+id/owner_names"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/owner_country"
+                android:text="@string/user_country"
+                android:textColor="@color/txt_light"
+                app:layout_constraintTop_toBottomOf="@+id/owner_email"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/owner_car"
+                android:text="@string/user_car"
+                android:textColor="@color/txt_light"
+                app:layout_constraintTop_toBottomOf="@+id/owner_country"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+           <View
+               android:layout_width="24dp"
+               android:layout_height="24dp"
+               android:background="@drawable/ic_baseline_arrow"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>
