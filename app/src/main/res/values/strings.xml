@@ -8,4 +8,6 @@
     <string name="user_email">chikakingsley@mail.com</string>
     <string name="user_country">Nigeria</string>
     <string name="user_car">Car: Rolls-Royce, 2007</string>
+    <string name="fcountry">Country visited:</string>
+    <string name="fcolor">Favorite Colours:</string>
 </resources>
