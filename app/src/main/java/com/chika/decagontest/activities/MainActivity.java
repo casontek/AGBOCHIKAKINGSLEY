@@ -11,8 +11,11 @@ import android.widget.Toast;
 import com.chika.decagontest.R;
 import com.google.android.material.button.MaterialButton;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //try and check if the Cars owners file exist
         try {
             InputStream in = getResources().openRawResource(R.raw.car_ownsers_data);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName("UTF-8")));
             //open the cars owners activity
             Intent i = new Intent(this, CarOwnersActivity.class);
             startActivity(i);
@@ -54,4 +58,5 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, Users.class);
         startActivity(i);
     }
+    
 }
