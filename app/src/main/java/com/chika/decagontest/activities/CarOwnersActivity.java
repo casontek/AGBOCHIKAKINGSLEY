@@ -129,19 +129,13 @@ public class CarOwnersActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.filter){
             //show filter panel as bottom sheet
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                showFilter();
-            }
-            else{
-                Toast.makeText(getBaseContext(), "Your device can not filter list", Toast.LENGTH_SHORT).show();
-            }
+            showFilter();
         }
         else if(item.getItemId() == android.R.id.home){
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     private void showFilter(){
         //show filter panel as bottom sheet dialog
@@ -164,7 +158,6 @@ public class CarOwnersActivity extends AppCompatActivity {
         btn_c.setOnClickListener(v -> {
             String m = model_filter.getText().toString();
             String c = country_filter.getText().toString();
-            Log.d("filter", c + ", " + m);
             if(!TextUtils.isEmpty(m) && !TextUtils.isEmpty(c)){
                 //filters the result using model and country of the owner
                 sheetDialog.dismiss();
@@ -195,7 +188,7 @@ public class CarOwnersActivity extends AppCompatActivity {
                 sheetDialog.dismiss();
                 List<CarOwner> carOwnerList = new ArrayList<>();
                 for (CarOwner co : carOwners) {
-                    if (co.getCountry().equals(m)) {
+                    if (co.getCar_model().equals(m)) {
                         carOwnerList.add(co);
                     }
                 }
@@ -214,9 +207,6 @@ public class CarOwnersActivity extends AppCompatActivity {
 
             if(!countries.contains(carOwner.getCountry()))
                 countries.add(carOwner.getCountry());
-
-            Log.d("models size " + models.size(), models.toString());
-            Log.d("countries size " + countries.size(), countries.toString());
         }
     }
 
