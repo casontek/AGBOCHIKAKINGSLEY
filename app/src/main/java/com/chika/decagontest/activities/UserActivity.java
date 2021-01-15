@@ -45,7 +45,7 @@ public class UserActivity extends AppCompatActivity {
     private void userDetails(Intent intent) {
         tv_names.setText(intent.getStringExtra("names"));
         tv_date.setText(intent.getStringExtra("createdAt"));
-        tv_gender.setText(intent.getStringExtra("gender".toUpperCase()));
+        tv_gender.setText("Gender: " + intent.getStringExtra("gender"));
 
         String url = intent.getStringExtra("avater");
         if (!TextUtils.isEmpty(url))

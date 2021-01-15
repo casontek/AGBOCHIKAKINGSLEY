@@ -1,9 +1,11 @@
 package com.chika.decagontest.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.chika.decagontest.R;
@@ -51,6 +53,15 @@ public class DetailActivity extends AppCompatActivity {
         tv_gender.setText(gender);
         tv_bio.setText(intent.getStringExtra("bio"));
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

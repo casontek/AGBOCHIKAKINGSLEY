@@ -26,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -67,51 +68,53 @@ public class CarOwnersActivity extends AppCompatActivity {
     }
 
     private void getCarOwners(){
-        try {
-            //shows progress bar
-            bar.setVisibility(View.VISIBLE);
+        runOnUiThread(() ->{
+            try {
+                //shows progress bar
+                bar.setVisibility(View.VISIBLE);
 
-            InputStream in = getResources().openRawResource(R.raw.car_ownsers_data);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName("UTF-8")));
-            carOwners = new ArrayList<>();
-            String line = ""; int count = 0;
-            while((line = reader.readLine()) != null){
-                //split
-                String[] token = line.split(",");
-                if(count > 0){
-                    CarOwner carOwner = new CarOwner();
-                    carOwner.setFirst_name(token[1]);
-                    carOwner.setLast_name(token[2]);
-                    carOwner.setEmail(token[3]);
-                    carOwner.setCountry(token[4]);
-                    carOwner.setCar_model(token[5]);
-                    carOwner.setCar_model_year(token[6]);
-                    carOwner.setCar_color(token[7]);
-                    carOwner.setGender(token[8]);
-                    carOwner.setJob_title(token[9]);
-                    carOwner.setBio(token[10]);
-                    //add to the list of car owners
-                    carOwners.add(carOwner);
+                InputStream in = getResources().openRawResource(R.raw.car_ownsers_data);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName("UTF-8")));
+                carOwners = new ArrayList<>();
+                String line = ""; int count = 0;
+                while((line = reader.readLine()) != null){
+                    //split
+                    String[] token = line.split(",");
+                    if(count > 0){
+                        CarOwner carOwner = new CarOwner();
+                        carOwner.setFirst_name(token[1]);
+                        carOwner.setLast_name(token[2]);
+                        carOwner.setEmail(token[3]);
+                        carOwner.setCountry(token[4]);
+                        carOwner.setCar_model(token[5]);
+                        carOwner.setCar_model_year(token[6]);
+                        carOwner.setCar_color(token[7]);
+                        carOwner.setGender(token[8]);
+                        carOwner.setJob_title(token[9]);
+                        carOwner.setBio(token[10]);
+                        //add to the list of car owners
+                        carOwners.add(carOwner);
+                    }
+                    //inrement count
+                    count += 1;
                 }
-                //inrement count
-                count += 1;
+                //display on the recycler view
+                if(carOwners.size() > 0){
+                    adapter = new CarOwnerAdapter(this, carOwners);
+                    recyclerView.setAdapter(adapter);
+                    //get models and country in the list
+                    analyzeData();
+                }
+                //hides progress bar
+                bar.setVisibility(View.GONE);
             }
-            //display on the recycler view
-            if(carOwners.size() > 0){
-                adapter = new CarOwnerAdapter(this, carOwners);
-                recyclerView.setAdapter(adapter);
-                //get models and country in the list
-                analyzeData();
+            catch (Exception e){
+                bar.setVisibility(View.GONE);
+                Log.d("file_error", e.getMessage());
+                //tell the user that file does not exist
+                Toast.makeText(getBaseContext(), "Car Owners data not found.", Toast.LENGTH_SHORT).show();
             }
-            //hides progress bar
-            bar.setVisibility(View.GONE);
-        }
-        catch (Exception e){
-            bar.setVisibility(View.GONE);
-            Log.d("file_error", e.getMessage());
-            //tell the user that file does not exist
-            Toast.makeText(getBaseContext(), "Car Owners data not found.", Toast.LENGTH_SHORT).show();
-        }
+        });
     }
 
     @Override
@@ -139,7 +142,7 @@ public class CarOwnersActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     private void showFilter(){
         //show filter panel as bottom sheet dialog
         BottomSheetDialog sheetDialog = new BottomSheetDialog(this);
@@ -161,29 +164,41 @@ public class CarOwnersActivity extends AppCompatActivity {
         btn_c.setOnClickListener(v -> {
             String m = model_filter.getText().toString();
             String c = country_filter.getText().toString();
+            Log.d("filter", c + ", " + m);
             if(!TextUtils.isEmpty(m) && !TextUtils.isEmpty(c)){
                 //filters the result using model and country of the owner
                 sheetDialog.dismiss();
                 //filter
-                List<CarOwner> carOwnerList = carOwners.stream()
-                        .filter(co -> co.getCar_model() == m &&
-                                co.getCountry() == c).collect(Collectors.toList());
+                List<CarOwner> carOwnerList = new ArrayList<>();
+                for (CarOwner co : carOwners) {
+                    if (co.getCountry().equals(c) && co.getCar_model().equals(m)) {
+                        carOwnerList.add(co);
+                    }
+                }
                 //now filter
                 filterNow(carOwnerList);
             }
             else if(TextUtils.isEmpty(m) && !TextUtils.isEmpty(c)){
                 //filters the result using the owners country
                 sheetDialog.dismiss();
-                List<CarOwner> carOwnerList = carOwners.stream()
-                        .filter(co -> co.getCountry() == c).collect(Collectors.toList());
+                List<CarOwner> carOwnerList = new ArrayList<>();
+                for (CarOwner co : carOwners) {
+                    if (co.getCountry().equals(c)) {
+                        carOwnerList.add(co);
+                    }
+                }
                 //continue filter
                 filterNow(carOwnerList);
             }
             else if(!TextUtils.isEmpty(m) && TextUtils.isEmpty(c)){
                 //filter the result using the car model
                 sheetDialog.dismiss();
-                List<CarOwner> carOwnerList = carOwners.stream()
-                        .filter(co -> co.getCar_model() == m).collect(Collectors.toList());
+                List<CarOwner> carOwnerList = new ArrayList<>();
+                for (CarOwner co : carOwners) {
+                    if (co.getCountry().equals(m)) {
+                        carOwnerList.add(co);
+                    }
+                }
                 //continue filter
                 filterNow(carOwnerList);
             }
@@ -206,8 +221,12 @@ public class CarOwnersActivity extends AppCompatActivity {
     }
 
     private void filterNow(List<CarOwner> owners){
-        adapter = new CarOwnerAdapter(this, owners);
-        recyclerView.setAdapter(adapter);
+        if(owners.size() > 0) {
+            adapter = new CarOwnerAdapter(this, owners);
+            recyclerView.setAdapter(adapter);
+        }
+        else
+            Toast.makeText(getBaseContext(), "no result", Toast.LENGTH_SHORT).show();
     }
 
 
