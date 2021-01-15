@@ -1,10 +1,12 @@
 package com.chika.decagontest.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,11 +17,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserActivity extends AppCompatActivity {
     CircleImageView img;
     TextView tv_countries, tv_colors, tv_gender, tv_names, tv_date;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+        //initialize toolbar
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
         //initializes widgets
         init();
         //display user info
@@ -39,7 +45,7 @@ public class UserActivity extends AppCompatActivity {
     private void userDetails(Intent intent) {
         tv_names.setText(intent.getStringExtra("names"));
         tv_date.setText(intent.getStringExtra("createdAt"));
-        tv_gender.setText(intent.getStringExtra("gender"));
+        tv_gender.setText(intent.getStringExtra("gender".toUpperCase()));
 
         String url = intent.getStringExtra("avater");
         if (!TextUtils.isEmpty(url))
@@ -52,13 +58,19 @@ public class UserActivity extends AppCompatActivity {
 
         //display colors
         for (String c : colors){
-            col = col + ", " + c;
+            if(TextUtils.isEmpty(col))
+                col = c;
+            else
+                col = col + ", " + c;
         }
         tv_colors.setText(col);
 
         //display countries
         for(String c: countries){
-            cou = cou + ", " + c;
+            if(TextUtils.isEmpty(cou))
+                cou = c;
+            else
+                cou = cou + ", " + c;
         }
         tv_countries.setText(cou);
     }

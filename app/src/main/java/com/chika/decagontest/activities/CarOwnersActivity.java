@@ -1,10 +1,12 @@
 package com.chika.decagontest.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -28,12 +31,15 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CarOwnersActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     CarOwnerAdapter adapter;
     ProgressBar bar;
     List<CarOwner> carOwners;
+    List<String> models = new ArrayList<>();
+    List<String> countries = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +78,6 @@ public class CarOwnersActivity extends AppCompatActivity {
             while((line = reader.readLine()) != null){
                 //split
                 String[] token = line.split(",");
-                count += 1;
                 if(count > 0){
                     CarOwner carOwner = new CarOwner();
                     carOwner.setFirst_name(token[1]);
@@ -88,11 +93,15 @@ public class CarOwnersActivity extends AppCompatActivity {
                     //add to the list of car owners
                     carOwners.add(carOwner);
                 }
+                //inrement count
+                count += 1;
             }
             //display on the recycler view
             if(carOwners.size() > 0){
                 adapter = new CarOwnerAdapter(this, carOwners);
                 recyclerView.setAdapter(adapter);
+                //get models and country in the list
+                analyzeData();
             }
             //hides progress bar
             bar.setVisibility(View.GONE);
@@ -117,11 +126,20 @@ public class CarOwnersActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.filter){
             //show filter panel as bottom sheet
-            showFilter();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                showFilter();
+            }
+            else{
+                Toast.makeText(getBaseContext(), "Your device can not filter list", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(item.getItemId() == android.R.id.home){
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void showFilter(){
         //show filter panel as bottom sheet dialog
         BottomSheetDialog sheetDialog = new BottomSheetDialog(this);
@@ -131,7 +149,13 @@ public class CarOwnersActivity extends AppCompatActivity {
 
         //initialises the widgets on filter panel
         AutoCompleteTextView model_filter = sheetDialog.findViewById(R.id.filter_model);
+        ArrayAdapter<String> model_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, models);
+        model_filter.setAdapter(model_adapter);
+
         AutoCompleteTextView country_filter = sheetDialog.findViewById(R.id.filter_country);
+        ArrayAdapter<String> country_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, countries);
+        country_filter.setAdapter(country_adapter);
+
         MaterialButton btn_c = sheetDialog.findViewById(R.id.btn_filter);
         //collects filter data on button click
         btn_c.setOnClickListener(v -> {
@@ -140,18 +164,51 @@ public class CarOwnersActivity extends AppCompatActivity {
             if(!TextUtils.isEmpty(m) && !TextUtils.isEmpty(c)){
                 //filters the result using model and country of the owner
                 sheetDialog.dismiss();
+                //filter
+                List<CarOwner> carOwnerList = carOwners.stream()
+                        .filter(co -> co.getCar_model() == m &&
+                                co.getCountry() == c).collect(Collectors.toList());
+                //now filter
+                filterNow(carOwnerList);
             }
             else if(TextUtils.isEmpty(m) && !TextUtils.isEmpty(c)){
                 //filters the result using the owners country
                 sheetDialog.dismiss();
+                List<CarOwner> carOwnerList = carOwners.stream()
+                        .filter(co -> co.getCountry() == c).collect(Collectors.toList());
+                //continue filter
+                filterNow(carOwnerList);
             }
             else if(!TextUtils.isEmpty(m) && TextUtils.isEmpty(c)){
                 //filter the result using the car model
                 sheetDialog.dismiss();
+                List<CarOwner> carOwnerList = carOwners.stream()
+                        .filter(co -> co.getCar_model() == m).collect(Collectors.toList());
+                //continue filter
+                filterNow(carOwnerList);
             }
         });
         //shows dialog
         sheetDialog.show();
     }
+
+    private void analyzeData(){
+        for (CarOwner carOwner : carOwners){
+            if(!models.contains(carOwner.getCar_model()))
+                models.add(carOwner.getCar_model());
+
+            if(!countries.contains(carOwner.getCountry()))
+                countries.add(carOwner.getCountry());
+
+            Log.d("models size " + models.size(), models.toString());
+            Log.d("countries size " + countries.size(), countries.toString());
+        }
+    }
+
+    private void filterNow(List<CarOwner> owners){
+        adapter = new CarOwnerAdapter(this, owners);
+        recyclerView.setAdapter(adapter);
+    }
+
 
 }

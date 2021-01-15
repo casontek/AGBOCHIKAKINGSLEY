@@ -40,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
         String fullName = intent.getStringExtra("fname") + " " + intent.getStringExtra("lname");
         String country = "Country: " + intent.getStringExtra("country");
         String gender = "Gender: " + intent.getStringExtra("gender");
-        String car = intent.getStringExtra("car_model") + ", " + intent.getStringExtra("car_model_year");
+        String car = "Car: " + intent.getStringExtra("car_model") + ", " + intent.getStringExtra("car_model_year");
 
         tv_names.setText(fullName);
         tv_email.setText(intent.getStringExtra("email"));

@@ -14,4 +14,6 @@
     <string name="car_filter1">Filter results</string>
     <string name="car_model">Car model</string>
     <string name="owner_country">Owner Country</string>
+    <string name="carowners">Car owners in US</string>
+    <string name="users">Users in FindApp</string>
 </resources>
