@@ -10,6 +10,7 @@ import com.chika.decagontest.activities.CarOwnersActivity;
 import com.chika.decagontest.activities.MainActivity;
 import com.chika.decagontest.activities.Users;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,17 +38,27 @@ public class MainAcivityTest {
         Intents.init();
     }
 
+    @After
+    public void terminate(){
+        //release intent
+        Intents.release();
+    }
+
     @Test
-    public void checkNewActivity(){
+    public void checkCarsActivityTest(){
         //click car owners button to call on the Cars owners list activity
         onView(withId(R.id.btn_find_cars)).perform(click());
         //verify that the calling activity received intent and has the correct package name
         intended(hasComponent(CarOwnersActivity.class.getName()));
+
+    }
+
+    @Test
+    public void checkUserActivityTest(){
         //clicks on the button to call on users list activity
         onView(withId(R.id.btn_find_users)).perform(click());
         //verify that the calling activity received intent and has the correct package name
         intended(hasComponent(Users.class.getName()));
-
     }
 
 }
