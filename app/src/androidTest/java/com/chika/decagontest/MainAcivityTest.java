@@ -5,7 +5,10 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+
+import com.chika.decagontest.activities.CarOwnersActivity;
 import com.chika.decagontest.activities.MainActivity;
+import com.chika.decagontest.activities.Users;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,11 +42,11 @@ public class MainAcivityTest {
         //click car owners button to call on the Cars owners list activity
         onView(withId(R.id.btn_find_cars)).perform(click());
         //verify that the calling activity received intent and has the correct package name
-        intended(allOf(hasComponent(hasShortClassName(".CarOwnersActivity")), toPackage("com.chika.decagontest")));
+        intended(hasComponent(CarOwnersActivity.class.getName()));
         //clicks on the button to call on users list activity
-        onView(withId(R.id.btn_find_users));
+        onView(withId(R.id.btn_find_users)).perform(click());
         //verify that the calling activity received intent and has the correct package name
-        intended(allOf(hasComponent(hasShortClassName(".Users")), toPackage("com.chika.decagontest")));
+        intended(hasComponent(Users.class.getName()));
 
     }
 
