@@ -14,3 +14,5 @@ It was writen in java with Android studio as the development environment.
   Glid for image processing <br/>
   com.github.bumptech.glide:glide:4.9.0
   
+ <b> demo video link <b>
+  https://youtu.be/h-IxedfrpIk
