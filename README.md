@@ -15,4 +15,6 @@ It was writen in java with Android studio as the development environment.
   com.github.bumptech.glide:glide:4.9.0
   
  <b> demo video link <b>
-  https://youtu.be/h-IxedfrpIk
+  https://youtu.be/h-IxedfrpIk   //no voice 
+  
+  https://youtu.be/1LAWuQeZ5g4  // with voice
